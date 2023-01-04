@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="treino.css">
+    
+</head>
+<body>
+    <!--Cores-->
+    <h1 id="titulo">Thais</h1>
+    <button onclick="mudarCorT()" id="corT">Mudar de cor do texto</button>
+    <button onclick="mudarCorF()" id="corF">Mudar de cor do fundo</button>
+    <!--Contador-->
+    <h1>Contador</h1>
+    <h1 id="num">0</h1>
+    <button onclick="diminuirNum()">Diminuir</button>
+    <button onclick="resetarNum()">Resetar</button>
+    <button onclick="aumentarNum()">Acrescentar</button>
+    <!--Menu-->
+    <h1>Menu</h1>
+    <div class="div1">
+        <div style="width: 50%;">
+        <ul id="lista" style="list-style: none;">       
+            <li>
+                Menu1
+            </li>
+            <li>
+                Menu2
+            </li>
+            <li>
+                Menu3
+            </li>
+            <li>
+                Menu4
+            </li>
+        </ul>
+        </div>
+        <div style="width: 50%;">
+            <button class="menu" onclick="toggleMenu(); this.classList.toggle('opened');this.setAttribute('aria-expanded', this.classList.contains('opened'))" aria-label="Main Menu">
+                <svg width="100" height="100" viewBox="0 0 100 100">
+                  <path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058" />
+                  <path class="line line2" d="M 20,50 H 80" />
+                  <path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942" />
+                </svg>
+              </button>
+        </div>
+        
+    </div>
+    <!--Modal-->
+    <h1>Modal/PopUp</h1>
+    <button onclick="showPopup()">Aparecer PopUp</button>
+    <div class="modal" id="modal">
+        <div class="sub-modal">
+            <h3>PopUp</h3>
+            <button class="sair" onclick="exitPopup()">X</button>
+        </div>
+        
+    </div>
+    <!--Botões-->
+    <h1>Botões com conteúdos diferentes</h1>
+    <button class="selected" id="btn1" onclick="cont1()">Primeiro conteúdo</button>
+    <button id="btn2" onclick="cont2()">Segundo conteúdo</button>
+    <button id="btn3" onclick="cont3()">Terceiro conteúdo</button>
+    <div>
+        <h2 id="h2">Conteúdo 1</h2>
+        <p id="p">Aqui jás o conteúdo 1</p>
+    </div>
+    <!--Timer-->
+    <h1>Contador até o dia 18 de dezembro de 2022 as 15:30:00</h1>
+    <div class="times">
+        <div class="time">
+            <p id="dia">0</p>
+            <p>Dias</p>
+        </div>
+        <div class="time">
+            <p id="hora">0</p>
+            <p>Horas</p>
+        </div>
+        <div class="time">
+            <p id="min">0</p>
+            <p>Mins</p>
+        </div>
+        <div class="time">
+            <p id="sec">0</p>
+            <p>Segs</p>
+        </div>
+    </div>
+    <!--Arquivo-->
+    <h1>Arquivo</h1>
+    <p>Clique para carregar uma foto:</p>
+    <input id="file" type="file" accept=".jpg, .png" style="display: none;">
+    <img id="foto" src="upload.png" style="cursor: pointer;">
+
+    <!--Joguinho-->
+    <h1>Jogo</h1>
+    <p class="d-none" id="temp"></p>
+    <p class="d-none" id="conta"></p>
+    <p class="d-none" id="resultado">Resultado:</p>
+    <input type="text" class="d-none" id="res">
+    <button onclick="comecarJogo();" id="btnStart">Começar Jogo</button>
+    <button onclick="conferirResultado()" class="d-none" id="btnRes">OK</button>
+
+    <!--DarkMode-->
+    <h1>DarkMode</h1>
+    <label class="switch">
+        <input type="checkbox" id="dMode">
+        <span class="slider"></span>
+    </label>
+        
+    <script>
+        //Cores
+        var titulo = document.getElementById('titulo');
+        //Contador
+        var num = document.getElementById('num');
+        //Menu
+        var lista = document.getElementById('lista');
+        //Modal
+        var modal = document.getElementById('modal');
+        //Botões
+        var h2 = document.getElementById('h2');
+        var p = document.getElementById('p');
+        var btn1 = document.getElementById('btn1');
+        var btn2 = document.getElementById('btn2');
+        var btn3 = document.getElementById('btn3');
+        //Timer
+        var dia = document.querySelector('#dia');
+        var hora = document.querySelector('#hora');
+        var min = document.querySelector('#min');
+        var sec = document.querySelector('#sec');
+        var dF = new Date(2022, 11, 18, 00, 00, 0);
+        var diaF = dF.getDay();
+        var horaF = dF.getHours();
+        var minF = dF.getMinutes();
+        var secF = dF.getSeconds();
+        var umDia = 24 * 60 * 60 * 1000;
+        var umaHora = 60* 60 * 1000;
+        var umMin = 60 * 1000;
+        //Arquivo
+        var file = document.querySelector("#file");
+        var foto = document.querySelector("#foto");
+        //Joguinho
+        var temp = document.querySelector("#temp");
+        var conta = document.querySelector("#conta");
+        var textRes = document.querySelector("#resultado");
+        var res = document.querySelector("#res");
+        var btnRes = document.querySelector("#btnRes");
+        var btnStart = document.querySelector("#btnStart");
+        //DarkMode
+        var dark = document.querySelector("#dMode");
+
+
+        
+        //Cores
+        function mudarCorT(){
+            var mat = Math.floor(Math.random()*1000000);
+            titulo.style.color = "#"+mat;
+            console.log(mat);
+        };
+        function mudarCorF(){
+            var mat = Math.floor(Math.random()*1000000);
+            titulo.style.backgroundColor = "#"+mat;
+        };
+
+        //Contador
+        function aumentarNum(){
+            var numF = parseInt(num.textContent); 
+            num.textContent = numF + 1;
+        }
+        function diminuirNum(){
+            var numF = parseInt(num.textContent); 
+            num.textContent = numF - 1;
+        }
+        function resetarNum(){
+            num.textContent = 0;
+        }
+        //Menu
+        function toggleMenu(){
+            if(lista.classList.contains("showMenu")){
+                lista.classList.remove("showMenu");
+            } else{
+                lista.classList.add("showMenu");
+            };
+        };
+
+        //Modal
+        function showPopup(){
+           modal.classList.add("modP")
+        }
+        function exitPopup(){
+           modal.classList.remove("modP")
+        }
+
+        //Botões
+        function cont1(){
+            h2.textContent = "Conteúdo 1";
+            p.textContent = "Aqui jás o conteúdo 1"
+            if(btn1.classList.contains("selected") === false){
+                btn1.classList.add("selected");
+                btn2.classList.remove("selected");
+                btn3.classList.remove("selected");
+            };
+
+        }
+        function cont2(){
+            h2.textContent = "Conteúdo 2";
+            p.textContent = "Aqui jás o conteúdo 2"
+            if(btn2.classList.contains("selected") === false){
+                btn2.classList.add("selected");
+                btn1.classList.remove("selected");
+                btn3.classList.remove("selected");
+            };
+        }
+        function cont3(){
+            h2.textContent = "Conteúdo 3";
+            p.textContent = "Aqui jás o conteúdo 3"
+            if(btn3.classList.contains("selected") === false){
+                btn3.classList.add("selected");
+                btn1.classList.remove("selected");
+                btn2.classList.remove("selected");
+            };
+        }
+        //Timer
+        setInterval(function(){
+            d = new Date();
+            var dd = d.getTime();
+            var dFd = dF.getTime();
+            var result = dFd-dd;
+            var dias = Math.floor(result / umDia);
+            var horas = Math.floor(result % umDia / umaHora);
+            var minutos = Math.floor(result % umaHora / umMin);
+            var segundos = Math.floor(result % umMin / 1000);
+            dia.textContent = dias;
+            hora.textContent = horas;
+            min.textContent = minutos;
+            sec.textContent = segundos;
+
+        },1000
+        
+        
+        );
+        //Arquivo
+        foto.addEventListener('click', () => {
+            file.click();
+        });
+
+        file.addEventListener('change', () => {
+            if (file.files.length <= 0) {
+                return;
+            }
+            var reader = new FileReader();
+            reader.onload = () => {
+                foto.src = reader.result;
+            }
+
+            reader.readAsDataURL(file.files[0]);
+        })
+        //Joguinho
+        function comecarJogo(){
+            temp.classList.remove("d-none");
+            conta.classList.remove("d-none");
+            textRes.classList.remove("d-none");
+            res.classList.remove("d-none");
+            btnRes.classList.remove("d-none");
+            btnStart.classList.add("d-none");
+            var v1 = Math.floor(Math.random() * 101);
+            var v2 = Math.floor(Math.random() * 101);
+            
+            if(Math.floor(Math.random() * 3) == 0){
+                var resul = v1.toString() + " + " + v2.toString();
+                 resulConta  = v1 + v2;
+            }else if(Math.floor(Math.random() * 3) == 1){
+                var resul = v1.toString() + " - " + v2.toString(); 
+                 resulConta  = v1 - v2;
+            }else {
+                var resul = v1.toString() + " x " + v2.toString(); 
+                 resulConta  = v1 * v2;
+            }
+            conta.textContent = resul;
+            var s = 30;
+            temp.textContent = "Tempo: "+ s + " s";
+            inter = setInterval(function (){
+                
+                s = s - 1;
+                temp.textContent = "Tempo: "+ s + " s";
+                if(s == 0){
+                    clearInterval(inter);
+                    conta.classList.add("d-none");
+                    textRes.classList.add("d-none");
+                    res.classList.add("d-none");
+                    btnRes.classList.add("d-none");
+                    temp.textContent = "Acabou o tempo!!";
+                    btnStart.classList.remove("d-none");
+                    btnStart.textContent = "Jogar de novo"            
+                }
+                
+                
+            },1000);
+          
+        };
+        function conferirResultado(){
+            
+            if(res.value == resulConta){
+                clearInterval(inter);
+                conta.classList.add("d-none");
+                textRes.classList.add("d-none");
+                res.classList.add("d-none");
+                btnRes.classList.add("d-none");
+                temp.textContent = "Você acertou!!";
+                btnStart.classList.remove("d-none");
+                btnStart.textContent = "Jogar de novo"
+            }else{
+                clearInterval(inter);
+                conta.classList.add("d-none");
+                textRes.classList.add("d-none");
+                res.classList.add("d-none");
+                btnRes.classList.add("d-none");
+                temp.textContent = "Você errou!!";
+                btnStart.classList.remove("d-none");
+                btnStart.textContent = "Jogar de novo"
+            }
+        };
+        dark.addEventListener('click', () =>{
+            body = document.getElementsByTagName("body");
+            if(dark.checked){
+                body[0].style.backgroundColor = "black";
+                body[0].style.color = "white";
+            }else{
+                body[0].style.backgroundColor = "white";
+                body[0].style.color = "black";
+            }
+        } )
+    </script>
+</body>
+</html>
